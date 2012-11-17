@@ -4,6 +4,16 @@ public class Category {
 	private long categoryid;
 	private String categoryName;
 
+	public Category() {
+
+	}
+
+	public Category(long id, String name, String desc) {
+		this.categoryid = id;
+		this.categoryDesc = desc;
+		this.categoryName = name;
+	}
+
 	public long getCategoryid() {
 		return categoryid;
 	}
@@ -29,4 +39,11 @@ public class Category {
 	}
 
 	private String categoryDesc;
+
+	@Override
+	public String toString() {
+		return "<ID>" + this.categoryid + "<Name>" + categoryName
+				+ "<Description>" + categoryDesc;
+	}
+
 }
