@@ -11,14 +11,14 @@ import com.jamdeo.sqlite.DataBaseManager;
 public class SQLiteTest extends AndroidTestCase {
 	private static final String TAG = "TestCategory";
 
-	public void testSave() {
+	public void testSaveCategory() {
 		DataBaseManager dbm = new DataBaseManager(this.getContext());
 		dbm.insert(new Category(1L, "Movies", "This is the first test case"));
 		dbm.insert(new Category(2L, "Series", "Series like ege of ice and fire"));
 		Log.i(TAG, "Fisrt Category Added");
 	}
 
-	public void testQuery() {
+	public void testQueryCategory() {
 		DataBaseManager dbm = new DataBaseManager(getContext());
 		List<Category> categorys = dbm.query("select * from category");
 		for (Category category : categorys) {
@@ -26,23 +26,23 @@ public class SQLiteTest extends AndroidTestCase {
 		}
 	}
 
-	public void testFind() {
+	public void testFindCategory() {
 		DataBaseManager dbm = new DataBaseManager(getContext());
-		Category category = dbm.findById(2L);
-		Log.i("TestFind", category == null ? null : category.toString());
+		Category category = (Category) dbm.findById(2L,Category.class);
+		Log.i("TestFind", category == null ? "" : category.toString());
 	}
 
-	public void testUpdate() {
+	public void testUpdateCategory() {
 		DataBaseManager dbm = new DataBaseManager(getContext());
 		dbm.update(new Category(2L, "Sitcom",
 				"Song of ice and fire, clash of the kings"));
-		testFind();
+		testFindCategory();
 	}
 
-	public void testDelete() {
+	public void testDeleteCategory() {
 		DataBaseManager dbm = new DataBaseManager(getContext());
-		dbm.delete(1L);
+		dbm.delete(1L,Category.class);
 		Log.i("TestDelete", "Delete finished.....");
-		testQuery();
+		testQueryCategory();
 	}
 }
