@@ -13,7 +13,15 @@
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
+        <provider
+            android:name="LiveTVProvider"
+            android:authorities="com.jamdeo.livetv.provider"
+            android:exported="true" >
+            <grant-uri-permission android:pathPattern=".*"/>
+        </provider>
+
         <uses-library android:name="android.test.runner" />
+
         <activity
             android:name=".SQLiteTestActivity"
             android:label="@string/app_name" >

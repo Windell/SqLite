@@ -5,8 +5,8 @@ import java.util.List;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
-import com.jamdeo.sqlite.Category;
 import com.jamdeo.sqlite.DataBaseManager;
+import com.jamdeo.sqlite.pojo.Category;
 
 public class SQLiteTest extends AndroidTestCase {
 	private static final String TAG = "TestCategory";

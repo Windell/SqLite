@@ -3,19 +3,25 @@ package com.jamdeo.sqlite;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jamdeo.sqlite.pojo.Category;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * Class using rawQuery and exeSQL()for DML database operations, rely on
+ * {@link #MySQLiteHelper}
+ * */
 public class DataBaseManager {
 	SQLiteOpenHelper sqliteOpenHelper;
 	static SQLiteDatabase db = null;
 
 	public DataBaseManager(Context context) {
 		sqliteOpenHelper = new MySQLiteHelper(context, 1);
-		if(db==null)
-		db = sqliteOpenHelper.getReadableDatabase();
+		if (db == null)
+			db = sqliteOpenHelper.getReadableDatabase();
 	}
 
 	public List<Category> query(String sql) {

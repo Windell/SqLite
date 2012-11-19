@@ -1,4 +1,4 @@
-package com.jamdeo.sqlite;
+package com.jamdeo.sqlite.pojo;
 
 public class Category {
 	private long categoryid;
