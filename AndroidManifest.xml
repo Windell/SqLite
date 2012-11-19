@@ -14,7 +14,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <provider
-            android:name="LiveTVProvider"
+            android:name="com.jamdeo.sqlite.ProgramContentProvider"
             android:authorities="com.jamdeo.livetv.provider"
             android:exported="true" >
             <grant-uri-permission android:pathPattern=".*"/>
