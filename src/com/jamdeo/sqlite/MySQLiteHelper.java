@@ -16,13 +16,19 @@ import android.util.Log;
 public class MySQLiteHelper extends SQLiteOpenHelper {
 	// When i was designing this program ,i am thinking about the CMS(Content
 	// Management System), so there is category, program and so on..
-	public static final String CREATE_TABLE_CATEGORY = "CREATE TABLE if not exists category"
-			+ "(_id INTEGER PRIMARY KEY AUTOINCREMENT, categoryid INTEGER, name VARCHAR, description TEXT);";
-	public static final String CREATE_TABLE_PROGRAM = "CREATE TABLE if not exists program"
-			+ "(programid INTEGER, programname VARCHAR,description TEXT,poster VARCHAR,thumbnail VARCHAR);";
-	public static final String CREATE_TABLE_CATEGORYDETAIL = "CREATE table if not exists categorydetail"
-			+ "(_id integer primary key autoincrement, prorgamid integer,categoryid integer,displayorder integer)";
-	public static final String DATABASE_NAME = "liveTV.db";
+	// TODO creation SQL should be read from some file
+	private static final String CREATE_TABLE_CATEGORY = "CREATE TABLE if not exists category"
+			+ "( categoryid INTEGER, name VARCHAR, description TEXT);";
+	private static final String CREATE_TABLE_PROGRAM = "CREATE TABLE if not exists program "
+			+ " (programid LONG, channelid LONG, programname VARCHAR, description TEXT, starttime INTEGER, endtime INTEGER,"
+			+ "favoriteflag INTEGER, programtype INTEGER, rate INTEGER, poster VARCHAR, thumbnail VARCHAR,createdtime INTEGER,lastedUpdatedtime INTEGER)";
+	private static final String CREATE_TABLE_CATEGORYDETAIL = "CREATE table if not exists categorydetail"
+			+ "(_id integer primary key autoincrement, programid integer,categoryid integer,displayorder integer,"
+			+ "foreign key (programid) references program(programid) on delete cascade)";
+	private static final String CREATE_TABLE_CHANNEL = "CREATE TABLE if not exists channel"
+			+ "(channelid LONG, channelname VARCHAR, channelnumber INTEGER, favoriteflag NUMERIC, logo VARCHAR)";
+
+	private static final String DATABASE_NAME = "liveTV.db";
 
 	public MySQLiteHelper(Context context, int version) {
 		super(context, DATABASE_NAME, null, version);
@@ -31,7 +37,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO View, Foreign key, and Index to be added.
+		db.execSQL("PRAGMA foreign_keys=ON");
 		db.execSQL(CREATE_TABLE_CATEGORY);
+		db.execSQL(CREATE_TABLE_CHANNEL);
 		db.execSQL(CREATE_TABLE_PROGRAM);
 		db.execSQL(CREATE_TABLE_CATEGORYDETAIL);
 	}

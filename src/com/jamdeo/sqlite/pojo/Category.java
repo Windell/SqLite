@@ -46,4 +46,21 @@ public class Category {
 				+ "<Description>" + categoryDesc;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+
+		if (o == null || !(o instanceof Category)) {
+			return false;
+		}
+		Category compared = (Category) o;
+		if (this.categoryid == compared.getCategoryid()
+				&& this.categoryName == compared.getCategoryName()
+				&& this.categoryDesc == compared.getCategoryDesc()) {
+			return true;
+		}
+		return false;
+	}
 }

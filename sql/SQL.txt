@@ -1,0 +1,16 @@
+
+CREATE TABLE category (categoryid INTEGER PRIMARY KEY, name VARCHAR, description TEXT);
+CREATE TABLE categorydetail(_id integer primary key autoincrement, prorgamid integer,categoryid integer,displayorder integer);
+CREATE TABLE channel (channelid LONG, channelname VARCHAR, channelnumber INTEGER, favoriteflag NUMERIC, logo VARCHAR);
+CREATE TABLE program (favoriteflag INTEGER, programtype INTEGER, rate INTEGER, endtime LONG, starttime LONG, programid LONG, channelid LONG, programname VARCHAR, description TEXT, poster VARCHAR, thumbnail VARCHAR);
+
+
+
+
+CREATE INDEX "INDEX_CATEGORYDETAIL_CATEGORYID" on categorydetail (categoryid ASC);
+CREATE INDEX "INDEX_PROGRAM_DESC" on program (description ASC);
+CREATE INDEX "INDEX_PROGRAM_NAME" on program (programname ASC);
+CREATE INDEX "INDEX_PROGRAM_CHANNELID" on program (channelid ASC);
+
+
+

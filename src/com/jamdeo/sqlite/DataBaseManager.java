@@ -1,8 +1,5 @@
 package com.jamdeo.sqlite;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -39,11 +36,18 @@ public class DataBaseManager {
 							((Category) object).getCategoryid() });
 		} else if (object instanceof Program) {
 			db.execSQL(
-					"update program set programname=?, description=?,poster=?,thumbnail=? where programid=?",
+					"update program set programname=?, description=?,poster=?,thumbnail=?,starttime=?"
+							+ ", endtime=?,favoriteflag=?, programtype=?, rate=?, lastedUpdatedtime=? where programid=?",
 					new Object[] { ((Program) object).getProgramname(),
 							((Program) object).getDescription(),
 							((Program) object).getPoster(),
 							((Program) object).getThubmnail(),
+							((Program) object).getStarttime(),
+							((Program) object).getEndtime(),
+							((Program) object).getFavoriteflag(),
+							((Program) object).getProgramtype(),
+							((Program) object).getRate(),
+							((Program) object).getUpdatedtime(),
 							((Program) object).getProgramid() });
 		}
 		db.setTransactionSuccessful();
@@ -67,16 +71,23 @@ public class DataBaseManager {
 								((Category) object).getCategoryName(),
 								((Category) object).getCategoryDesc() });
 			} else if (object instanceof Program) {
+				Program program = (Program) object;
 				db.execSQL(
-						"insert into program(programid,programname,description,thumbnail,poster) values(?,?,?,?,?)",
-						new Object[] { ((Program) object).getProgramid(),
-								((Program) object).getProgramname(),
-								((Program) object).getDescription(),
-								((Program) object).getThubmnail(),
-								((Program) object).getPoster() });
+						"insert into program(programid,channelid, programname, description, starttime, endtime,"
+								+ "favoriteflag, programtype, rate, poster, thumbnail,createdtime,lastedUpdatedtime) values(?,?,?,?,?,?,?,?,?,?,?,?,?)",
+						new Object[] { program.getProgramid(),
+								program.getChannelid(),
+								program.getProgramname(),
+								program.getDescription(),
+								program.getStarttime(), program.getEndtime(),
+								program.getFavoriteflag(),
+								program.getProgramtype(), program.getRate(),
+								program.getPoster(), program.getThubmnail(),
+								(int) (System.currentTimeMillis() / 1000),
+								(int) (System.currentTimeMillis() / 1000) });
 			}
 
-		} else {
+		} else if (!finded.equals(object)) {
 			update(object);
 		}
 		db.setTransactionSuccessful();
@@ -87,20 +98,24 @@ public class DataBaseManager {
 		Cursor find = null;
 		String querySQL = null;
 		if (klass == Category.class) {
-			querySQL = "select * from category where categoryid=?";
+			querySQL = "select  categoryid, name, description from category where categoryid=?";
 		} else if (klass == Program.class) {
-			querySQL = "select * from program where programid=?";
+			querySQL = "select programid,channelid, programname, description, starttime, endtime,"
+					+ "favoriteflag, programtype, rate, poster, thumbnail,createdtime,lastedUpdatedtime from program where programid=?";
 		}
 		if (querySQL != null)
 			find = db.rawQuery(querySQL, new String[] { id.toString() });
 		Object result = null;
-		while (find != null && find.moveToNext()) {
+		if (find != null && find.moveToNext()) {
 			if (klass == Category.class) {
-				result = new Category(find.getLong(1), find.getString(2),
-						find.getString(3));
+				result = new Category(find.getLong(0), find.getString(1),
+						find.getString(2));
 			} else if (klass == Program.class) {
-				result = new Program(find.getLong(0), find.getString(1),
-						find.getString(2), find.getString(3), find.getString(4));
+				result = new Program(find.getLong(0), find.getLong(1),
+						find.getString(2), find.getString(3), find.getInt(4),
+						find.getInt(5), find.getInt(6), find.getInt(7),
+						find.getInt(8), find.getString(9), find.getString(10),
+						find.getInt(11), find.getInt(12));
 			}
 		}
 		find.close();

@@ -2,15 +2,12 @@ package com.jamdeo.sqlite.test;
 
 import android.database.Cursor;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 import com.jamdeo.sqlite.DataBaseManager;
 import com.jamdeo.sqlite.pojo.Category;
 import com.jamdeo.sqlite.pojo.Program;
 
 public class TestSQLiteHelper extends AndroidTestCase {
-	// TODO How can I control part of these methods executed
-	private static final String TAG = "TestCategory";
 
 	public void testCategory() {
 		DataBaseManager dbm = new DataBaseManager(getContext());
@@ -20,7 +17,11 @@ public class TestSQLiteHelper extends AndroidTestCase {
 		assertNotNull(dbm.findById(3L, Category.class));
 		dbm.delete(3L, Category.class);
 		assertNull(dbm.findById(3L, Category.class));
-
+		
+		Cursor cursor=dbm.query("select count(*) from category");
+		assertTrue(cursor.moveToNext());
+		assertEquals(cursor.getInt(0),2);
+		
 		dbm.update(new Category(2L, "Sitcom", "No desc"));
 		Category category = (Category) dbm.findById(2L, Category.class);
 		assertEquals(category.getCategoryName(), "Sitcom");
