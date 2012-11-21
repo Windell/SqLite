@@ -3,7 +3,6 @@ package com.jamdeo.sqlite.test;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;
@@ -11,14 +10,16 @@ import android.test.AndroidTestCase;
 
 import com.jamdeo.sqlite.DataBaseManager;
 import com.jamdeo.sqlite.pojo.Category;
+import com.jamdeo.sqlite.pojo.CategoryDetail;
+import com.jamdeo.sqlite.pojo.Channel;
 import com.jamdeo.sqlite.pojo.Program;
 
 public class TestSQLiteHelper extends AndroidTestCase {
 
 	public void testCategory() {
 		DataBaseManager dbm = new DataBaseManager(getContext());
-		dbm.insert(new Category(1L, "Movies", "This is the first test case"));
-		dbm.insert(new Category(2L, "Series", "Series like ege of ice and fire"));
+		dbm.insert(new Category(1L, "体育", "足球,篮球,羽毛球"));
+		dbm.insert(new Category(2L, "连续剧", "连续剧"));
 		dbm.insert(new Category(3L, "To Be Deleted", "No description"));
 		assertNotNull(dbm.findById(3L, Category.class));
 		dbm.delete(3L, Category.class);
@@ -28,14 +29,14 @@ public class TestSQLiteHelper extends AndroidTestCase {
 		assertTrue(cursor.moveToNext());
 		assertEquals(cursor.getInt(0), 2);
 
-		dbm.update(new Category(2L, "Sitcom", "No desc"));
+		dbm.update(new Category(2L, "电视剧", "没描述"));
 		Category category = (Category) dbm.findById(2L, Category.class);
-		assertEquals(category.getCategoryName(), "Sitcom");
-		assertEquals(category.getCategoryDesc(), "No desc");
+		assertEquals(category.getCategoryName(), "电视剧");
+		assertEquals(category.getCategoryDesc(), "没描述");
 
-		dbm.insert(new Category(1L, "Movies", "Updated"));
+		dbm.insert(new Category(1L, "体育", "CCTV5"));
 		category = (Category) dbm.findById(1L, Category.class);
-		assertEquals("Updated", category.getCategoryDesc());
+		assertEquals("CCTV5", category.getCategoryDesc());
 		dbm.closeDB();
 
 	}
@@ -90,6 +91,13 @@ public class TestSQLiteHelper extends AndroidTestCase {
 		assertNull(dbm.findById(3L, Program.class));
 
 		dbm.insert(pro3);
+		// clone to two channels;
+		pro1.setChannelid(2L);
+		pro2.setChannelid(2L);
+		pro3.setChannelid(2L);
+		dbm.insert(pro1);
+		dbm.insert(pro2);
+		dbm.insert(pro3);
 
 		Program find1 = (Program) dbm.findById(1L, Program.class);
 		find1.setProgramname("Total Soccer");
@@ -100,6 +108,53 @@ public class TestSQLiteHelper extends AndroidTestCase {
 		assertEquals(finded.getProgramname(), "Total Soccer");
 
 		dbm.closeDB();
+	}
+
+	public void testChannel() {
+		DataBaseManager dbm = new DataBaseManager(getContext());
+		Channel channel1 = new Channel();
+		channel1.setChannelid(1L);
+		channel1.setChannelnumber(1);
+		channel1.setChannelname("CCTV5");
+		channel1.setLogo("1234567.png");
+
+		Channel channel2 = new Channel();
+		channel2.setChannelid(2L);
+		channel2.setChannelnumber(2);
+		channel2.setChannelname("CCTV6");
+		channel2.setLogo("23456.png");
+
+		dbm.insert(channel1);
+		dbm.insert(channel2);
+		dbm.closeDB();
+	}
+
+	public void testCategoryDetail() {
+		DataBaseManager dbm = new DataBaseManager(getContext());
+		CategoryDetail detail1=new CategoryDetail();
+		detail1.setCategoryid(1L);
+		detail1.setProgramid(1L);
+		detail1.setDisplayOrder(1);
+		
+		dbm.insert(detail1);
+		detail1.setProgramid(2L);
+		detail1.setDisplayOrder(2);
+		dbm.insert(detail1);
+		
+		detail1.setProgramid(3L);
+		detail1.setDisplayOrder(3);
+		dbm.insert(detail1);
+		
+		CategoryDetail detail2=new CategoryDetail();
+		detail2.setCategoryid(2L);
+		detail2.setProgramid(1L);
+		detail2.setDisplayOrder(1);
+		dbm.insert(detail2);
+		
+		detail2.setProgramid(2L);
+		detail2.setDisplayOrder(2);
+		dbm.insert(detail2);
+		
 	}
 
 	@SuppressLint("SimpleDateFormat")
