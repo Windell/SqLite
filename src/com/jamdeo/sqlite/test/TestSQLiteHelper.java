@@ -16,7 +16,7 @@ import com.jamdeo.sqlite.pojo.Program;
 
 public class TestSQLiteHelper extends AndroidTestCase {
 
-	public void test_2_Category() {
+	public void test_1_Category() {
 		DataBaseManager dbm = new DataBaseManager(getContext());
 		dbm.insert(new Category(1L, "体育", "足球,篮球,羽毛球"));
 		dbm.insert(new Category(2L, "连续剧", "连续剧"));
@@ -129,7 +129,7 @@ public class TestSQLiteHelper extends AndroidTestCase {
 		dbm.closeDB();
 	}
 
-	public void test_3_CategoryDetail() {
+	public void test_4_CategoryDetail() {
 		DataBaseManager dbm = new DataBaseManager(getContext());
 		CategoryDetail detail1=new CategoryDetail();
 		detail1.setCategoryid(1L);

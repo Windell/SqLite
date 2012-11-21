@@ -13,12 +13,12 @@ public class TestContentProvider extends AndroidTestCase {
 		Cursor cursor = getContext().getContentResolver().query(
 				Uri.parse("content://" + ProgramContentProvider.AUTHRORITY
 						+ "/" + ProgramContentProvider.TABLE_CATEGORY),
-				new String[] { "_id", "categoryid", "name", "description" },
+				new String[] { "categoryid", "name", "description" },
 				null, null, null);
 		while (cursor.moveToNext()) {
 			Log.i("Category",
-					new Category(cursor.getLong(1), cursor.getString(2), cursor
-							.getString(3)).toString());
+					new Category(cursor.getLong(0), cursor.getString(1), cursor
+							.getString(2)).toString());
 		}
 	}
 
@@ -42,13 +42,21 @@ public class TestContentProvider extends AndroidTestCase {
 				new String[] { "categoryid", "categoryname", "programid",
 						"name", "programdesc", "starttime", "endtime",
 						"programtype", "favoriteflag", "rate", "poster",
-						"thubmnail", "displayorder" }, null, null, null);
+						"thumbnail", "displayorder" }, null, null, null);
 		while (cursor.moveToNext()) {
 			Log.i("CategoryPrograms",
 					getFormattedInt(cursor, 0) + getFormattedString(cursor, 1)
 							+ getFormattedInt(cursor, 2)
 							+ getFormattedString(cursor, 3)
-							+ getFormattedString(cursor, 4));
+							+ getFormattedString(cursor, 4)
+							+ getFormattedInt(cursor, 5)
+							+ getFormattedInt(cursor, 6)
+							+ getFormattedString(cursor, 7)
+							+ getFormattedInt(cursor, 8)
+							+ getFormattedInt(cursor, 9)
+							+ getFormattedString(cursor, 10)
+							+ getFormattedString(cursor, 11)
+							+ getFormattedInt(cursor, 12));
 		}
 	}
 

@@ -66,7 +66,7 @@ public class ProgramContentProvider extends ContentProvider {
 		case LIVETV_CATEGORY:
 			return sqlite.doQuery(TABLE_CATEGORY, "categoryid",
 					Long.parseLong(uri.getLastPathSegment()), projection);
-		case LIVETV_CATEGORYDETAILS:
+		case LIVETV_CATEGORYPROGRAMS:
 			return sqlite.doQuery(VIEW_TAGEGORYPROGRAM, projection, selection,
 					selectionArgs, sortOrder);
 		}

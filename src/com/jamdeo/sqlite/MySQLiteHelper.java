@@ -21,18 +21,18 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			+ "( categoryid INTEGER, name VARCHAR, description TEXT);";
 	private static final String CREATE_TABLE_PROGRAM = "CREATE TABLE if not exists program "
 			+ " (programid LONG, channelid LONG, programname VARCHAR, description TEXT, starttime INTEGER, endtime INTEGER,"
-			+ "favoriteflag INTEGER, programtype INTEGER, rate INTEGER, poster VARCHAR, thumbnail VARCHAR,createdtime INTEGER,lastedUpdatedtime INTEGER)";
+			+ "favoriteflag INTEGER, programtype INTEGER, rate INTEGER, poster VARCHAR, thumbnail VARCHAR,createdtime INTEGER,lastedUpdatedtime INTEGER);";
 	private static final String CREATE_TABLE_CATEGORYDETAIL = "CREATE table if not exists categorydetail"
 			+ "(_id integer primary key autoincrement, programid integer,categoryid integer,displayorder integer,"
-			+ "foreign key (programid) references program(programid) on delete cascade)";
+			+ "foreign key (programid) references program(programid) on delete cascade);";
 	private static final String CREATE_TABLE_CHANNEL = "CREATE TABLE if not exists channel"
-			+ "(channelid LONG, channelname VARCHAR, channelnumber INTEGER, favoriteflag NUMERIC, logo VARCHAR)";
+			+ "(channelid LONG, channelname VARCHAR, channelnumber INTEGER, favoriteflag NUMERIC, logo VARCHAR);";
 
 	private static final String CREATE_VIEW_CATEGORYPROGRAM = "CREATE VIEW CategoryProgram AS select  c.categoryid as categoryid,c.name as categoryname,"
 			+ " p.programid as programid, p.programname as name,p.description as programdesc,p.starttime as starttime, p.endtime as endtime,"
 			+ " p.programtype as programtype,p.favoriteflag as favoriteflag,p.rate as rate,p.poster as poster, p.thumbnail as thumbnail,"
 			+ "d.displayorder as displayorder from category as c, program as p ,categorydetail as d "
-			+ "where c.categoryid=d.categoryid and p.programid=d.programid";
+			+ "where c.categoryid=d.categoryid and p.programid=d.programid;";
 
 	private static final String DATABASE_NAME = "liveTV.db";
 
