@@ -16,7 +16,7 @@ import com.jamdeo.sqlite.pojo.Program;
 
 public class TestSQLiteHelper extends AndroidTestCase {
 
-	public void testCategory() {
+	public void test_2_Category() {
 		DataBaseManager dbm = new DataBaseManager(getContext());
 		dbm.insert(new Category(1L, "体育", "足球,篮球,羽毛球"));
 		dbm.insert(new Category(2L, "连续剧", "连续剧"));
@@ -42,7 +42,7 @@ public class TestSQLiteHelper extends AndroidTestCase {
 	}
 
 	// A ha,this method more like a test case method .
-	public void testProgram() {
+	public void test_3_Program() {
 		DataBaseManager dbm = new DataBaseManager(getContext());
 		Program pro1 = new Program();
 		pro1.setProgramid(1L);
@@ -110,7 +110,7 @@ public class TestSQLiteHelper extends AndroidTestCase {
 		dbm.closeDB();
 	}
 
-	public void testChannel() {
+	public void test_2_Channel() {
 		DataBaseManager dbm = new DataBaseManager(getContext());
 		Channel channel1 = new Channel();
 		channel1.setChannelid(1L);
@@ -129,7 +129,7 @@ public class TestSQLiteHelper extends AndroidTestCase {
 		dbm.closeDB();
 	}
 
-	public void testCategoryDetail() {
+	public void test_3_CategoryDetail() {
 		DataBaseManager dbm = new DataBaseManager(getContext());
 		CategoryDetail detail1=new CategoryDetail();
 		detail1.setCategoryid(1L);

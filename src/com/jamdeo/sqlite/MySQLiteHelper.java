@@ -28,6 +28,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	private static final String CREATE_TABLE_CHANNEL = "CREATE TABLE if not exists channel"
 			+ "(channelid LONG, channelname VARCHAR, channelnumber INTEGER, favoriteflag NUMERIC, logo VARCHAR)";
 
+	private static final String CREATE_VIEW_CATEGORYPROGRAM = "CREATE VIEW CategoryProgram AS select  c.categoryid as categoryid,c.name as categoryname,"
+			+ " p.programid as programid, p.programname as name,p.description as programdesc,p.starttime as starttime, p.endtime as endtime,"
+			+ " p.programtype as programtype,p.favoriteflag as favoriteflag,p.rate as rate,p.poster as poster, p.thumbnail as thumbnail,"
+			+ "d.displayorder as displayorder from category as c, program as p ,categorydetail as d "
+			+ "where c.categoryid=d.categoryid and p.programid=d.programid";
+
 	private static final String DATABASE_NAME = "liveTV.db";
 
 	public MySQLiteHelper(Context context, int version) {
@@ -42,6 +48,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL(CREATE_TABLE_CHANNEL);
 		db.execSQL(CREATE_TABLE_PROGRAM);
 		db.execSQL(CREATE_TABLE_CATEGORYDETAIL);
+		db.execSQL(CREATE_VIEW_CATEGORYPROGRAM);
 	}
 
 	@Override

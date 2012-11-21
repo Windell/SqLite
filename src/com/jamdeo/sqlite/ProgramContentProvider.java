@@ -25,6 +25,7 @@ public class ProgramContentProvider extends ContentProvider {
 	public static final String TABLE_CATEGORY = "category";
 	public static final String TABLE_PROGRAM = "program";
 	public static final String TABLE_CATEGORYDETAIL = "categorydetail";
+	public static final String VIEW_TAGEGORYPROGRAM = "categoryprogram";
 
 	private static final int LIVETV_CATEGORYS = 1;
 	private static final int LIVETV_CATEGORY = 2;
@@ -32,6 +33,8 @@ public class ProgramContentProvider extends ContentProvider {
 	private static final int LIVETV_PROGRAM = 4;
 	private static final int LIVETV_CATEGORYDETAILS = 5;
 	private static final int LIVETV_CATEGORYDETAIL = 6;
+	private static final int LIVETV_CATEGORYPROGRAMS = 7;
+	private static final int LIVETV_CATEGORYPROGRAM = 8;
 	static {
 		matcher.addURI(AUTHRORITY, TABLE_CATEGORY, LIVETV_CATEGORYS);
 		matcher.addURI(AUTHRORITY, TABLE_CATEGORY + "/#", LIVETV_CATEGORY);
@@ -40,6 +43,10 @@ public class ProgramContentProvider extends ContentProvider {
 		matcher.addURI(AUTHRORITY, TABLE_CATEGORYDETAIL, LIVETV_CATEGORYDETAILS);
 		matcher.addURI(AUTHRORITY, TABLE_CATEGORYDETAIL + "/#",
 				LIVETV_CATEGORYDETAIL);
+		matcher.addURI(AUTHRORITY, VIEW_TAGEGORYPROGRAM,
+				LIVETV_CATEGORYPROGRAMS);
+		matcher.addURI(AUTHRORITY, VIEW_TAGEGORYPROGRAM + "/#",
+				LIVETV_CATEGORYPROGRAM);
 	}
 
 	@Override
@@ -59,6 +66,9 @@ public class ProgramContentProvider extends ContentProvider {
 		case LIVETV_CATEGORY:
 			return sqlite.doQuery(TABLE_CATEGORY, "categoryid",
 					Long.parseLong(uri.getLastPathSegment()), projection);
+		case LIVETV_CATEGORYDETAILS:
+			return sqlite.doQuery(VIEW_TAGEGORYPROGRAM, projection, selection,
+					selectionArgs, sortOrder);
 		}
 		return null;
 	}

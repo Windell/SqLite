@@ -4,6 +4,9 @@ CREATE TABLE categorydetail(_id integer primary key autoincrement, prorgamid int
 CREATE TABLE channel (channelid LONG, channelname VARCHAR, channelnumber INTEGER, favoriteflag NUMERIC, logo VARCHAR);
 CREATE TABLE program (favoriteflag INTEGER, programtype INTEGER, rate INTEGER, endtime LONG, starttime LONG, programid LONG, channelid LONG, programname VARCHAR, description TEXT, poster VARCHAR, thumbnail VARCHAR);
 
+-- Describe CATEGORYPROGRAM
+CREATE VIEW "CategoryProgram" AS select  c.categoryid as categoryid,c.name as categoryname, p.programid as programid, p.programname as name,p.description as programdesc,p.starttime as starttime, p.endtime as endtime, p.programtype as programtype,p.favoriteflag as favoriteflag,p.rate as rate,p.poster as poster, p.thumbnail as thumbnail,d.displayorder as displayorder from category as c, program as p ,categorydetail as d where c.categoryid=d.categoryid and p.programid=d.programid
+
 
 
 

@@ -108,7 +108,7 @@ public class DataBaseManager {
 								channel.getFavoriteflag(), channel.getLogo() });
 			} else if (object instanceof CategoryDetail) {
 				db.execSQL(
-						"insert into categorydetail(programid,categoryid,displayorder)values",
+						"insert into categorydetail(programid,categoryid,displayorder)values(?,?,?)",
 						new Object[] {
 								((CategoryDetail) object).getProgramid(),
 								((CategoryDetail) object).getCategoryid(),
