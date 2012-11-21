@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.jamdeo.sqlite.pojo.Category;
+import com.jamdeo.sqlite.pojo.CategoryDetail;
+import com.jamdeo.sqlite.pojo.Channel;
 import com.jamdeo.sqlite.pojo.Program;
 
 /**
@@ -47,8 +49,16 @@ public class DataBaseManager {
 							((Program) object).getFavoriteflag(),
 							((Program) object).getProgramtype(),
 							((Program) object).getRate(),
-							((Program) object).getUpdatedtime(),
+							(int) (System.currentTimeMillis() / 1000),
 							((Program) object).getProgramid() });
+		} else if (object instanceof Channel) {
+			Channel channel = (Channel) object;
+			db.execSQL(
+					"update channel set channelname=?, channelnumber=?, favoriteflag=?, logo=? where channelid=?",
+					new Object[] { channel.getChannelname(),
+							channel.getChannelnumber(),
+							channel.getFavoriteflag(), channel.getLogo(),
+							channel.getChannelid() });
 		}
 		db.setTransactionSuccessful();
 		db.endTransaction();
@@ -62,6 +72,8 @@ public class DataBaseManager {
 					Category.class);
 		} else if (object instanceof Program) {
 			finded = findById(((Program) object).getProgramid(), Program.class);
+		} else if (object instanceof Channel) {
+			finded = findById(((Channel) object).getChannelid(), Channel.class);
 		}
 		if (finded == null) {
 			if (object instanceof Category) {
@@ -85,6 +97,22 @@ public class DataBaseManager {
 								program.getPoster(), program.getThubmnail(),
 								(int) (System.currentTimeMillis() / 1000),
 								(int) (System.currentTimeMillis() / 1000) });
+			} else if (object instanceof Channel) {
+				Channel channel = (Channel) object;
+				db.execSQL(
+						"insert into channel(channelid, channelname, channelnumber, favoriteflag, logo)"
+								+ "values(?,?,?,?,?)",
+						new Object[] { channel.getChannelid(),
+								channel.getChannelname(),
+								channel.getChannelnumber(),
+								channel.getFavoriteflag(), channel.getLogo() });
+			} else if (object instanceof CategoryDetail) {
+				db.execSQL(
+						"insert into categorydetail(programid,categoryid,displayorder)values",
+						new Object[] {
+								((CategoryDetail) object).getProgramid(),
+								((CategoryDetail) object).getCategoryid(),
+								((CategoryDetail) object).getDisplayOrder() });
 			}
 
 		} else if (!finded.equals(object)) {
@@ -102,6 +130,8 @@ public class DataBaseManager {
 		} else if (klass == Program.class) {
 			querySQL = "select programid,channelid, programname, description, starttime, endtime,"
 					+ "favoriteflag, programtype, rate, poster, thumbnail,createdtime,lastedUpdatedtime from program where programid=?";
+		} else if (klass == Channel.class) {
+			querySQL = "select channelid, channelname, channelnumber, favoriteflag, logo from channel where channelid=?";
 		}
 		if (querySQL != null)
 			find = db.rawQuery(querySQL, new String[] { id.toString() });
@@ -116,6 +146,9 @@ public class DataBaseManager {
 						find.getInt(5), find.getInt(6), find.getInt(7),
 						find.getInt(8), find.getString(9), find.getString(10),
 						find.getInt(11), find.getInt(12));
+			} else if (klass == Channel.class) {
+				result = new Channel(find.getLong(0), find.getString(1),
+						find.getInt(2), find.getInt(3), find.getString(4));
 			}
 		}
 		find.close();
@@ -129,6 +162,8 @@ public class DataBaseManager {
 			deleteSQL = "delete from category where categoryid=?";
 		} else if (klass == Program.class) {
 			deleteSQL = "delete from program where programid=?";
+		} else if (klass == Channel.class) {
+			deleteSQL = "delete from channel where channelid=?";
 		}
 		if (deleteSQL != null)
 			db.execSQL(deleteSQL, new Object[] { id });

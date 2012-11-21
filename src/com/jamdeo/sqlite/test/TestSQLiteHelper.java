@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.test.AndroidTestCase;
 
@@ -56,7 +57,7 @@ public class TestSQLiteHelper extends AndroidTestCase {
 		dbm.insert(pro1);
 		Program program = (Program) dbm.findById(1L, Program.class);
 		assertNotNull(program);
-		Program pro2=new Program();
+		Program pro2 = new Program();
 		pro2.setProgramid(2L);
 		pro2.setChannelid(1L);
 		pro2.setProgramname("德甲直播");
@@ -68,8 +69,8 @@ public class TestSQLiteHelper extends AndroidTestCase {
 		pro2.setThubmnail("234567890.jpg");
 		pro2.setRate(4);
 		dbm.insert(pro2);
-		Program pro3=new Program();
-		pro3.setProgramid(2L);
+		Program pro3 = new Program();
+		pro3.setProgramid(3L);
 		pro3.setChannelid(1L);
 		pro3.setProgramname("西甲集锦");
 		pro3.setDescription("梅西超越贝利.......");
@@ -87,7 +88,10 @@ public class TestSQLiteHelper extends AndroidTestCase {
 
 		dbm.delete(3L, Program.class);
 		assertNull(dbm.findById(3L, Program.class));
-		Program find1=(Program) dbm.findById(1L, Program.class);
+
+		dbm.insert(pro3);
+
+		Program find1 = (Program) dbm.findById(1L, Program.class);
 		find1.setProgramname("Total Soccer");
 		assertNotNull(find1);
 		dbm.update(find1);
@@ -98,7 +102,8 @@ public class TestSQLiteHelper extends AndroidTestCase {
 		dbm.closeDB();
 	}
 
-	private int getSeconds(String date){
+	@SuppressLint("SimpleDateFormat")
+	private int getSeconds(String date) {
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		try {
 			return (int) formatter.parse(date).getTime();
