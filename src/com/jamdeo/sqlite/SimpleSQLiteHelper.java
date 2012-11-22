@@ -18,15 +18,16 @@ public class SimpleSQLiteHelper extends SQLiteOpenHelper {
 	// Management System), so there is category, program and so on..
 	// TODO creation SQL should be read from some file
 	private static final String CREATE_TABLE_CATEGORY = "CREATE TABLE if not exists category"
-			+ "( categoryid INTEGER, name VARCHAR, description TEXT);";
+			+ "( categoryid INTEGER, name VARCHAR, description TEXT，PRIMARY KEY ( categoryid ) );";
 	private static final String CREATE_TABLE_PROGRAM = "CREATE TABLE if not exists program "
 			+ " (programid LONG, channelid LONG, programname VARCHAR, description TEXT, starttime INTEGER, endtime INTEGER,"
-			+ "favoriteflag INTEGER, programtype INTEGER, rate INTEGER, poster VARCHAR, thumbnail VARCHAR,createdtime INTEGER,lastedUpdatedtime INTEGER);";
+			+ "favoriteflag INTEGER, programtype INTEGER, rate INTEGER, poster VARCHAR, thumbnail VARCHAR,createdtime INTEGER"
+			+ ",lastedUpdatedtime INTEGER,PRIMARY KEY (programid));";
 	private static final String CREATE_TABLE_CATEGORYDETAIL = "CREATE table if not exists categorydetail"
 			+ "(_id integer primary key autoincrement, programid integer,categoryid integer,displayorder integer,"
 			+ "foreign key (programid) references program(programid) on delete cascade);";
 	private static final String CREATE_TABLE_CHANNEL = "CREATE TABLE if not exists channel"
-			+ "(channelid LONG, channelname VARCHAR, channelnumber INTEGER, favoriteflag NUMERIC, logo VARCHAR);";
+			+ "(channelid LONG, channelname VARCHAR, channelnumber INTEGER, favoriteflag NUMERIC, logo VARCHAR,PRIMARY KEY(channelid));";
 
 	private static final String CREATE_VIEW_CATEGORYPROGRAM = "CREATE VIEW CategoryProgram AS select  c.categoryid as categoryid,c.name as categoryname,"
 			+ " p.programid as programid, p.programname as name,p.description as programdesc,p.starttime as starttime, p.endtime as endtime,"
