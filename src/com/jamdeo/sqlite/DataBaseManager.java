@@ -21,7 +21,7 @@ public class DataBaseManager {
 	public DataBaseManager(Context context) {
 		sqliteOpenHelper = new SimpleSQLiteHelper(context, 1);
 		if (db == null)
-			db = sqliteOpenHelper.getReadableDatabase();
+			db = sqliteOpenHelper.getWritableDatabase();
 	}
 
 	public Cursor query(String sql) {
