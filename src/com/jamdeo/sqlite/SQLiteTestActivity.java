@@ -9,6 +9,5 @@ public class SQLiteTestActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		MySQLiteHelper sqlite = new MySQLiteHelper(this, 0);
 	}
 }

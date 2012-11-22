@@ -19,7 +19,7 @@ public class DataBaseManager {
 	static SQLiteDatabase db = null;
 
 	public DataBaseManager(Context context) {
-		sqliteOpenHelper = new MySQLiteHelper(context, 1);
+		sqliteOpenHelper = new SimpleSQLiteHelper(context, 1);
 		if (db == null)
 			db = sqliteOpenHelper.getReadableDatabase();
 	}

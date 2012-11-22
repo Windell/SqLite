@@ -15,7 +15,7 @@ import android.net.Uri;
  * */
 public class ProgramContentProvider extends ContentProvider {
 
-	private MySQLiteHelper sqlite = null;
+	private SimpleSQLiteHelper sqlite = null;
 	private static final int DATABASE_VERSION = 1;
 	private static final UriMatcher matcher = new UriMatcher(
 			UriMatcher.NO_MATCH);
@@ -52,7 +52,7 @@ public class ProgramContentProvider extends ContentProvider {
 	@Override
 	public boolean onCreate() {
 		// TODO Auto-generated method stub
-		sqlite = new MySQLiteHelper(this.getContext(), DATABASE_VERSION);
+		sqlite = new SimpleSQLiteHelper(this.getContext(), DATABASE_VERSION);
 		return false;
 	}
 

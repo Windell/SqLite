@@ -13,7 +13,7 @@ import android.util.Log;
  * methods to operate database.
  * <p>
  * */
-public class MySQLiteHelper extends SQLiteOpenHelper {
+public class SimpleSQLiteHelper extends SQLiteOpenHelper {
 	// When i was designing this program ,i am thinking about the CMS(Content
 	// Management System), so there is category, program and so on..
 	// TODO creation SQL should be read from some file
@@ -33,10 +33,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			+ " p.programtype as programtype,p.favoriteflag as favoriteflag,p.rate as rate,p.poster as poster, p.thumbnail as thumbnail,"
 			+ "d.displayorder as displayorder from category as c, program as p ,categorydetail as d "
 			+ "where c.categoryid=d.categoryid and p.programid=d.programid;";
+	private static final String CREATE_VIEW_CHANNELPROGRAM = "CREATE VIEW channelprogram AS select c.channelid as channelid, channelname, channelnumber,"
+			+ "c.favoriteflag as channelfavorite,c.logo as channellogo,p.programid as programid,p.programname as programname,description,starttime,"
+			+ "endtime,p.favoriteflag as programfavorite,programtype,rate,poster,thumbnail from channel  as c, program as p where c.channelid=p.channelid";
 
 	private static final String DATABASE_NAME = "liveTV.db";
 
-	public MySQLiteHelper(Context context, int version) {
+	public SimpleSQLiteHelper(Context context, int version) {
 		super(context, DATABASE_NAME, null, version);
 	}
 
@@ -49,6 +52,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL(CREATE_TABLE_PROGRAM);
 		db.execSQL(CREATE_TABLE_CATEGORYDETAIL);
 		db.execSQL(CREATE_VIEW_CATEGORYPROGRAM);
+		db.execSQL(CREATE_VIEW_CHANNELPROGRAM);
 	}
 
 	@Override
